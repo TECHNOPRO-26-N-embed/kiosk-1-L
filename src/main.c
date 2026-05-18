@@ -205,6 +205,16 @@ int updateStock(const char *productName, int quantity, int mode) {
 
 int main() {
 
+    
+    //ありえないくらい文字化けするのでshift-jisに変更
+    //int result = system("chcp 932");
+    //if(result == -1) {
+    //    printf("コマンドの実行に失敗しました。\n");
+    //}else{
+    //    printf("コマンドが正常に実行されました。（終了コード:%d)\n", result);
+    //}  
+
+
     //1---------------
     Product vending[item_count];
     for (int i = 0; i < item_count; i++) {
