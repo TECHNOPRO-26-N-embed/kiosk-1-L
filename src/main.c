@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include <time.h>
 #include "Hosoyama.h"
 #define PURCHASE 0
 #define RESTOCK 1
@@ -10,10 +11,10 @@
 #define item_count 50
 
 // 自動販売機の構造体（商品名と金額のみ）
-typedef struct {
-    char name[item_count];
-    int price;
-} vending_machine;
+// typedef struct {
+//     char name[item_count];
+//     int price;
+// } Product;
 
 typedef struct {
     int id;
@@ -205,7 +206,7 @@ int updateStock(const char *productName, int quantity, int mode) {
 int main() {
 
     //1---------------
-    vending_machine vending[item_count];
+    Product vending[item_count];
     for (int i = 0; i < item_count; i++) {
         vending[i].price = 0; //初期化
         vending[i].name[0] = '\0'; //初期化
@@ -285,6 +286,11 @@ int main() {
             printf("%sは在庫切れです。\n", products[choice - 1].name);
         }
     }
+    pay(100,1000);
+    change(100, 1000);
+    buy_item_name(NULL, 0);
+    updateStock(NULL, 0, PURCHASE);
+    savePurchase(NULL, 0, 0, 0, 0, 0);
 }
 
 
