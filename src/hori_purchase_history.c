@@ -26,7 +26,7 @@ int savePurchase(
 
     if (file == NULL) {
         printf("購入履歴ファイルを開けませんでした。\n");
-        return -1; // ファイルオープンエラー
+        return -1;
     }
 
     // 現在の日時を取得
@@ -47,14 +47,14 @@ int savePurchase(
     // CSVファイルに1行追加
     if (fprintf(
             file,
-            "%s,%s,%d,%d,%d,%d\n",
-            dateStr, // 購入日時
+            "%s,%s,%d,%d,%d,%d,%d\n",
+            dateStr,     // 購入日時
             productName, // 商品名
-            unitPrice, // 商品の単価
-            quantity, // 購入した商品の個数
-            totalPrice, // 購入した商品の合計金額            
-            payment, // 支払金額
-            change // お釣り
+            unitPrice,   // 商品の単価
+            quantity,    // 購入した商品の個数
+            totalPrice,  // 購入した商品の合計金額
+            payment,     // 支払金額
+            change       // お釣り
         ) < 0) {
 
         printf("購入履歴の書き込みに失敗しました。\n");
@@ -67,6 +67,26 @@ int savePurchase(
 
     printf("購入履歴を保存しました。\n");
 
-    return 0; // 成功
+    return 0;
 }
 
+// 動作確認用のmain関数
+int main(void) {
+    char productName[] = "コーラ";
+    int unitPrice = 150;
+    int quantity = 2;
+    int totalPrice = unitPrice * quantity;
+    int payment = 500;
+    int change = payment - totalPrice;
+
+    savePurchase(
+        productName,
+        unitPrice,
+        quantity,
+        totalPrice,
+        payment,
+        change
+    );
+
+    return 0;
+}
