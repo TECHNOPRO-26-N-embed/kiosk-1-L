@@ -16,7 +16,7 @@ int pay(int price, int money) {
     } else {
         printf("お支払いありがとうございます。\n");
     }
-    buy_item_name(NULL, 0); // 商品名と個数の入力を促す関数を呼び出す
+    //buy_item_name(NULL, 0); // 商品名と個数の入力を促す関数を呼び出す
     return 0;
 }
 

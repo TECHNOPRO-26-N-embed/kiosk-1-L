@@ -12,7 +12,7 @@ typedef struct {
 } vending_machine;
 
 
-int MenuChoice() {
+int main() {
 
     //ありえないくらい文字化けするのでshift-jisに変更
     //int result = system("chcp 932");
