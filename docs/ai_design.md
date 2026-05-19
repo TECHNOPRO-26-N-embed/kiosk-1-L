@@ -126,6 +126,11 @@
 | price | 単価 | 整数 | 必須 | 1 以上 |
 | stock | 在庫数 | 整数 | 必須 | 0 以上 50 以下 |
 
+#### csvの例
+product_id,product_name（実在するドリンクの商品名）,temperature,price,stock
+1,コカ・コーラ,cool,160,50
+
+
 ### 7.2 購入履歴（purchase_history.csv）
 | 項目名 | 説明 | 型 | 必須 | 制約 |
 | :--- | :--- | :--- | :---: | :--- |
@@ -136,6 +141,10 @@
 | total_price | 合計金額 | 整数 | 必須 | unit_price × quantity |
 | paid_amount | 支払金額 | 整数 | 必須 | total_price 以上 |
 | change_amount | 釣銭 | 整数 | 必須 | paid_amount - total_price |
+
+#### csvの例
+purchased_at,product_name,unit_price,quantity,total_price,paid_amount,change_amount
+2026-12-11 11:12:13,なっちゃんオレンジ,160,1,160,200,40
 
 ### 7.3 データ件数制約
 - 商品件数は最大 50 件
