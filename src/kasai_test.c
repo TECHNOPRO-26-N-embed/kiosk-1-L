@@ -91,7 +91,7 @@ int ProductParchase(){
     //     {7, "レモネード", 150, 5},
     // };
 
-
+    while(1){
         printf("=== 自販機シミュレーション ===\n");
         printf("商品一覧:\n");
         for (int i = 0; i < item_count; i++) {
@@ -122,6 +122,7 @@ int ProductParchase(){
     // updateStock(NULL, 0, PURCHASE);
     // savePurchase(NULL, 0, 0, 0, 0, 0);
 }
+}
 
 int pay(int price, int money) {
     printf("合計: %d円\n", price);
@@ -129,22 +130,19 @@ int pay(int price, int money) {
     if (money < price) {
         int shortage = price - money;
         printf("金額が不足しています。あと%d円必要です。\n", shortage);
-        return shortage;
+        pay(price, money); // 不足している金額を再度入力させるために再帰呼び出し
     } else {
         printf("お支払いありがとうございます。\n");
     }
-    //buy_item_name(NULL, 0); // 商品名と個数の入力を促す関数を呼び出す
+    
     return 0;
 }
 
+
 void buy_item_name(char*item_name,int num) {
-    printf("例として入力を受け付けています。後々は引数で受け取るように変更予定です。\n");
-    scanf("購入する商品名を入力してください。: %s", item_name);
-    scanf("購入する個数を入力してください。: %d", &num);
+    printf("後々商品名と個数を引数で受け取るように変更予定です。\n");
     printf("%sを%d個購入しました。\n", item_name, num);
     
-    
-    //printf("%sを%d個購入しました。\n", item_name, num);
 }
 
 void change(int price, int money) {
