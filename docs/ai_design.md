@@ -127,8 +127,11 @@
 | stock | 在庫数 | 整数 | 必須 | 0 以上 50 以下 |
 
 #### csvの例
-product_id,product_name（実在するドリンクの商品名）,temperature,price,stock
+product_id,product_name,temperature,price,stock
 1,コカ・コーラ,cool,160,50
+##### ドリンクの規則
+- ドリンクは実在するものに限る
+- ドリンクはソフトドリンクに限る
 
 
 ### 7.2 購入履歴（purchase_history.csv）
@@ -145,6 +148,10 @@ product_id,product_name（実在するドリンクの商品名）,temperature,pr
 #### csvの例
 purchased_at,product_name,unit_price,quantity,total_price,paid_amount,change_amount
 2026-12-11 11:12:13,なっちゃんオレンジ,160,1,160,200,40
+
+##### ドリンクの規則
+- ドリンクは実在するものに限る
+- ドリンクはソフトドリンクに限る
 
 ### 7.3 データ件数制約
 - 商品件数は最大 50 件
