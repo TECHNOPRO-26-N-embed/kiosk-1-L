@@ -24,7 +24,7 @@ typedef struct {
 } Product;
 
 int ProductParchase(){
-    while (1){
+//    while (1){
     //1---------------
     Product vending[item_count];
     for (int i = 0; i < item_count; i++) {
@@ -103,6 +103,7 @@ int ProductParchase(){
         scanf("%d", &choice);
         if (choice == 0) {
             printf("終了します。\n");
+            pay(100);
             break;
         }
         if (choice < 1 || choice > item_count) {
@@ -116,44 +117,15 @@ int ProductParchase(){
             printf("%sは在庫切れです。\n", vending[choice - 1].name);
         }
     }
+    
     // pay(100,1000);
     // change(100, 1000);
     // buy_item_name(NULL, 0);
     // updateStock(NULL, 0, PURCHASE);
     // savePurchase(NULL, 0, 0, 0, 0, 0);
-}
-}
-
-int pay(int price, int money) {
-    printf("合計: %d円\n", price);
-    scanf("投入金額を入力してください。: %d", &money);
-    if (money < price) {
-        int shortage = price - money;
-        printf("金額が不足しています。あと%d円必要です。\n", shortage);
-        pay(price, money); // 不足している金額を再度入力させるために再帰呼び出し
-    } else {
-        printf("お支払いありがとうございます。\n");
-    }
-    
-    return 0;
+//}
 }
 
-
-void buy_item_name(char*item_name,int num) {
-    printf("後々商品名と個数を引数で受け取るように変更予定です。\n");
-    printf("%sを%d個購入しました。\n", item_name, num);
-    
-}
-
-void change(int price, int money) {
-    if (money > price) {
-        int change_amount = money - price;
-        printf("お釣りは%d円です。\n", change_amount);
-    } else {
-        printf("ちょうどお支払いありがとうございます。\n");
-    }
-    
-}
 
 int savePurchase(
     const char *productName,
