@@ -87,3 +87,78 @@ int updateStock(const char *productName, int quantity, int mode) {
 
     return 0; // 成功
 }
+
+/*
+ * ここから下は動作確認用に追加したコード
+ */
+
+//動作確認用のproducts.csvを作成する関数
+void createTestCsv(void) {
+    FILE *file;
+
+    file = fopen("products.csv", "w");
+
+    if (file == NULL) {
+        printf("動作確認用のproducts.csvを作成できませんでした。\n");
+        return;
+    }
+
+    fprintf(file, "コーラ,120,10\n");
+    fprintf(file, "お茶,100,20\n");
+    fprintf(file, "水,80,30\n");
+
+    fclose(file);
+}
+
+//products.csvの中身を表示する関数
+void showCsv(void) {
+    FILE *file;
+    char line[255];
+
+    file = fopen("products.csv", "r");
+
+    if (file == NULL) {
+        printf("products.csvが開けませんでした。\n");
+        return;
+    }
+
+    printf("現在のproducts.csvの中身\n");
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        printf("%s", line);
+    }
+
+    printf("\n");
+
+    fclose(file);
+}
+
+//動作確認用のmain関数
+int main(void) {
+    int result;
+
+    printf("=== 動作確認開始 ===\n\n");
+
+    printf("【準備】動作確認用のproducts.csvを作成\n");
+    createTestCsv();
+    showCsv();
+
+    printf("【確認1】コーラを3個購入\n");
+    result = updateStock("コーラ", 3, PURCHASE);
+    printf("戻り値: %d\n", result);
+    showCsv();
+
+    printf("【確認2】お茶を5個補充\n");
+    result = updateStock("お茶", 5, RESTOCK);
+    printf("戻り値: %d\n", result);
+    showCsv();
+
+    printf("【確認3】存在しない商品名「ジュース」を購入\n");
+    result = updateStock("ジュース", 2, PURCHASE);
+    printf("戻り値: %d\n", result);
+    showCsv();
+
+    printf("=== 動作確認終了 ===\n");
+
+    return 0;
+}
