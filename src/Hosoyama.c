@@ -3,16 +3,15 @@
 
 /// @brief 支払い金額を計算する関数
 /// @param price 商品の価格
-/// @param money 支払った金額
-/// @param pay_money 実際に支払う金額
 /// @return 不足している金額（支払った金額が足りている場合は0）
-int pay(int price, int money) {
+int pay(int price) {
+    int money;  //入力される金額を格納する変数
     printf("合計: %d円\n", price);
     scanf("投入金額を入力してください。: %d", &money);
     if (money < price) {
         int shortage = price - money;
         printf("金額が不足しています。あと%d円必要です。\n", shortage);
-        pay(price, money); // 不足している金額を再度入力させるために再帰呼び出し
+        pay(price); // 不足している金額を再度入力させるために再帰呼び出し
     } else {
         printf("お支払いありがとうございます。\n");
     }
