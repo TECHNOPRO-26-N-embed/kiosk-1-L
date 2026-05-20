@@ -11,6 +11,9 @@
 #include "ai_admin.h"
 #include "ai_util.h"
 
+#define AI_PRODUCTS_CSV "ai_products.csv" // 商品データのCSVファイル名
+#define AI_ADMIN_CONF "ai_admin.conf" // 管理者認証用の設定ファイル名
+
 // タイトルを表示する関数
 // プログラムの最初に呼び出され、システムのタイトルを表示します。
 void print_title() {
