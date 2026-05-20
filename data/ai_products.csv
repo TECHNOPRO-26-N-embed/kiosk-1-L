@@ -1,5 +1,5 @@
 product_id,product_name,temperature,price,stock
-1,コカ・コーラ,cool,0,50
+1,コカ・コーラ,cool,150,50
 2,抹茶ラテ,hot,150,48
 3,おーいお茶,cool,140,48
 4,ファンタ グレープ,cool,140,50
@@ -28,7 +28,7 @@ product_id,product_name,temperature,price,stock
 27,サントリー黒烏龍茶,cool,150,50
 28,ヘルシア緑茶,cool,160,50
 29,DAKARA,cool,130,50
-30,アミノバリュー,cool,150,50
+30,アミノバリュー,cool,150,40
 31,ホットコーヒー,hot,150,50
 32,カフェオレ,hot,150,50
 33,カフェラテ,hot,150,50
