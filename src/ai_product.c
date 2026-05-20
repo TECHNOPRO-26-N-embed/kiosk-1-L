@@ -112,12 +112,12 @@ void show_product_list(Product* products, int count, int page) {
 
     // 商品情報を表示
     for (int i = start; i < end && i < count; i++) {
-        printf("%2d  %-14s %-5s %4d  %s\n",
+        printf("%2d  %-14s %-5s %4d  %d\n",
             products[i].product_id,
             products[i].product_name,
             products[i].temperature,
             products[i].price,
-            products[i].stock == 0 ? "売切" : "在庫有");
+            products[i].stock);
     }
 
     // ページ遷移案内を表示
@@ -139,7 +139,15 @@ void manage_stock(Product* products, int* count) {
         }
 
         if (menu == 1) {
-            show_product_list(products, *count, 1); // 商品一覧を表示
+            printf("\n--- 商品一覧 ---\n");
+            for (int i = 0; i < *count; i++) {
+                printf("%2d  %-14s %-5s %4d  在庫: %d\n",
+                    products[i].product_id,
+                    products[i].product_name,
+                    products[i].temperature,
+                    products[i].price,
+                    products[i].stock);
+            }
 
             // 補充する商品番号を入力
             int id = input_integer("補充する商品IDを入力", 1, 50);
@@ -156,7 +164,9 @@ void manage_stock(Product* products, int* count) {
             }
 
             // 補充数を入力（在庫上限を超えない範囲）
-            int add = input_integer("補充数を入力(1-50)", 1, 50 - products[idx].stock);
+            int max_add = 50 - products[idx].stock;
+            printf("補充数を入力(1-%d): ", max_add);
+            int add = input_integer("", 1, max_add);
             products[idx].stock += add;
             printf("%sの在庫を%d個補充しました。\n", products[idx].product_name, add);
             continue;
@@ -182,10 +192,25 @@ void replace_products(Product* main_products, int* main_count, const char* repla
         return;
     }
 
-    printf("\n--- メイン商品一覧（1ページ目）---\n");
-    show_product_list(main_products, *main_count, 1);
-    printf("\n--- 入れ替え候補一覧（1ページ目）---\n");
-    show_product_list(replace_products_list, replace_count, 1);
+    printf("\n--- メイン商品一覧 ---\n");
+    for (int i = 0; i < *main_count; i++) {
+        printf("%2d  %-14s %-5s %4d  %s\n",
+            main_products[i].product_id,
+            main_products[i].product_name,
+            main_products[i].temperature,
+            main_products[i].price,
+            main_products[i].stock == 0 ? "売切" : "在庫有");
+    }
+
+    printf("\n--- 入れ替え候補一覧 ---\n");
+    for (int i = 0; i < replace_count; i++) {
+        printf("%2d  %-14s %-5s %4d  %s\n",
+            replace_products_list[i].product_id,
+            replace_products_list[i].product_name,
+            replace_products_list[i].temperature,
+            replace_products_list[i].price,
+            replace_products_list[i].stock == 0 ? "売切" : "在庫有");
+    }
 
     int main_id = input_integer("入れ替え対象のメイン商品IDを入力", 1, 9999);
     int replace_id = input_integer("入れ替え候補の商品IDを入力", 1, 9999);
