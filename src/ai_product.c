@@ -165,7 +165,7 @@ void manage_stock(Product* products, int* count) {
 
             // 補充数を入力（在庫上限を超えない範囲）
             int max_add = 50 - products[idx].stock;
-            printf("補充数を入力(1-%d): ", max_add);
+            printf("補充数を入力 ");
             int add = input_integer("", 1, max_add);
             products[idx].stock += add;
             printf("%sの在庫を%d個補充しました。\n", products[idx].product_name, add);

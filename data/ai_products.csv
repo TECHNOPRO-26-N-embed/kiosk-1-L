@@ -1,6 +1,6 @@
 product_id,product_name,temperature,price,stock
 1,コカ・コーラ,cool,0,50
-2,抹茶ラテ,hot,150,0
+2,抹茶ラテ,hot,150,50
 3,おーいお茶,cool,140,48
 4,ファンタ グレープ,cool,140,50
 5,レモンスカッシュ,cool,130,20
