@@ -54,6 +54,7 @@ int append_purchase_history(const PurchaseHistory* history) {
 void purchase_flow(Product* products, int* count) {
     printf("\n--- 購入処理 ---\n");
     int page = 1; // 現在のページ番号
+    int total_pages = (*count + 9) / 10; // 総ページ数（1ページ10件）
     int selected = -1; // 選択された商品のインデックス
     int quantity = 0; // 購入個数
     int paid = 0; // 支払金額
@@ -64,11 +65,31 @@ void purchase_flow(Product* products, int* count) {
     // 商品選択ループ
     while (1) {
         show_product_list(products, *count, page); // 商品一覧を表示
-        printf("商品番号を入力 (q:戻る): ");
+        printf("商品番号を入力 (n:次ページ p:前ページ q:戻る): ");
         fgets(cmd, sizeof(cmd), stdin); // 商品番号を入力
         if (cmd[0] == 'q') return; // 戻る場合
+        if (cmd[0] == 'n') {
+            if (page < total_pages) {
+                page++;
+            } else {
+                error_message("これ以上次のページはありません\n");
+            }
+            continue;
+        }
+        if (cmd[0] == 'p') {
+            if (page > 1) {
+                page--;
+            } else {
+                error_message("これ以上前のページはありません\n");
+            }
+            continue;
+        }
 
         int id = atoi(cmd); // 入力を整数に変換
+        if (id <= 0) {
+            error_message("商品番号が不正です\n");
+            continue;
+        }
 
         // 商品番号チェック
         int idx = -1;
