@@ -194,22 +194,22 @@ void replace_products(Product* main_products, int* main_count, const char* repla
 
     printf("\n--- メイン商品一覧 ---\n");
     for (int i = 0; i < *main_count; i++) {
-        printf("%2d  %-14s %-5s %4d  %s\n",
+        printf("%2d  %-14s %-5s %4d  在庫:%d\n",
             main_products[i].product_id,
             main_products[i].product_name,
             main_products[i].temperature,
             main_products[i].price,
-            main_products[i].stock == 0 ? "売切" : "在庫有");
+            main_products[i].stock);
     }
 
     printf("\n--- 入れ替え候補一覧 ---\n");
     for (int i = 0; i < replace_count; i++) {
-        printf("%2d  %-14s %-5s %4d  %s\n",
+        printf("%2d  %-14s %-5s %4d  在庫:%d\n",
             replace_products_list[i].product_id,
             replace_products_list[i].product_name,
             replace_products_list[i].temperature,
             replace_products_list[i].price,
-            replace_products_list[i].stock == 0 ? "売切" : "在庫有");
+            replace_products_list[i].stock);
     }
 
     int main_id = input_integer("入れ替え対象のメイン商品IDを入力", 1, 9999);
