@@ -18,9 +18,6 @@
 #include "ai_admin.c"
 #include "ai_util.c"
 
-#define AI_PRODUCTS_CSV "ai_products.csv" // 商品データのCSVファイル名
-#define AI_ADMIN_CONF "ai_admin.conf" // 管理者認証用の設定ファイル名
-
 // タイトルを表示する関数
 // プログラムの最初に呼び出され、システムのタイトルを表示します。
 void print_title() {
@@ -38,7 +35,9 @@ int main() {
     int product_count = 0; // 商品数を管理する変数
 
     // 商品データをCSVファイルから読み込む
-    load_products(AI_PRODUCTS_CSV, products, &product_count);
+    if (load_products(PRODUCT_CSV, products, &product_count) != LOAD_OK) {
+        error_message("商品データの読み込みに失敗しました。data/ai_products.csv を確認してください。\n");
+    }
 
     // メインループ
     while (running) {
@@ -54,15 +53,15 @@ int main() {
                 // 購入処理を呼び出し
                 purchase_flow(products, &product_count);
                 // 購入後、商品データをCSVに保存
-                save_products(AI_PRODUCTS_CSV, products, product_count);
+                save_products(PRODUCT_CSV, products, product_count);
                 break;
             case 2:
                 // 管理者認証を実行
-                if (authenticate_admin(AI_ADMIN_CONF)) {
+                if (authenticate_admin(ADMIN_HASH_FILE)) {
                     // 認証成功時に在庫管理を実行
                     manage_stock(products, &product_count);
                     // 在庫変更後、商品データをCSVに保存
-                    save_products(AI_PRODUCTS_CSV, products, product_count);
+                    save_products(PRODUCT_CSV, products, product_count);
                 } else {
                     // 認証失敗時にエラーメッセージを表示
                     error_message("管理者認証に失敗しました。\n");
