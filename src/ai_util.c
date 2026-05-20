@@ -4,7 +4,7 @@
 // 共通機能を提供します。
 
 #include "ai_util.h"
-#include <openssl/sha.h> // OpenSSLライブラリを使用してSHA-256を計算
+
 
 // エラーメッセージを表示する関数
 // 引数: message - 表示するエラーメッセージ
@@ -41,13 +41,13 @@ int input_integer(const char* prompt, int min, int max) {
 // SHA-256ハッシュを計算する関数
 // 引数: input - 入力文字列
 //       output - 計算されたハッシュ値（16進数文字列）
-void sha256(const char* input, char* output) {
-    unsigned char hash[SHA256_DIGEST_LENGTH]; // ハッシュ値を格納するバッファ
-    SHA256((unsigned char*)input, strlen(input), hash); // SHA-256を計算
+// void sha256(const char* input, char* output) {
+//     unsigned char hash[SHA256_DIGEST_LENGTH]; // ハッシュ値を格納するバッファ
+//     SHA256((unsigned char*)input, strlen(input), hash); // SHA-256を計算
 
-    // ハッシュ値を16進数文字列に変換
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-        sprintf(output + (i * 2), "%02x", hash[i]);
-    }
-    output[SHA256_DIGEST_LENGTH * 2] = '\0'; // 終端文字を追加
-}
+//     // ハッシュ値を16進数文字列に変換
+//     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+//         sprintf(output + (i * 2), "%02x", hash[i]);
+//     }
+//     output[SHA256_DIGEST_LENGTH * 2] = '\0'; // 終端文字を追加
+// }

@@ -12,15 +12,15 @@
 #define MAX_STOCK 1000
 
 // 商品データCSVファイル名
-#define PRODUCT_CSV "ktest.csv"
+#define PRODUCT_CSV "ai_products.csv"
 
 // 商品入れ替えCSVファイル名
-#define REPLACE_CSV "ktest_utf-8.csv"
+#define REPLACE_CSV "ai_replace_products.csv"
 
 // 購入履歴CSVファイル名
-#define PURCHASE_HISTORY_CSV "purchase_history.csv"
+#define PURCHASE_HISTORY_CSV "ai_purchase_history.csv"
 
 // 管理者ハッシュファイル名
-#define ADMIN_HASH_FILE "admin_hash.txt"
+#define ADMIN_HASH_FILE "ai_admin.conf"
 
 #endif // AI_CONST_H

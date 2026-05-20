@@ -11,6 +11,13 @@
 #include "ai_admin.h"
 #include "ai_util.h"
 
+// 研修環境のビルド設定では src/main.c のみがコンパイル対象のため、
+// ここで各モジュール実装を取り込んで単一翻訳単位としてビルドできるようにする。
+#include "ai_product.c"
+#include "ai_purchase.c"
+#include "ai_admin.c"
+#include "ai_util.c"
+
 #define AI_PRODUCTS_CSV "ai_products.csv" // 商品データのCSVファイル名
 #define AI_ADMIN_CONF "ai_admin.conf" // 管理者認証用の設定ファイル名
 

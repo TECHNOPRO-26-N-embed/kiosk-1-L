@@ -11,7 +11,7 @@
 #include "ai_util.h"
 
 // 購入履歴CSVファイル名
-#define PURCHASE_HISTORY_CSV "ai_purchase_history.csv"
+//#define PURCHASE_HISTORY_CSV "ai_purchase_history.csv"
 
 // 購入情報構造体
 // 購入履歴を管理するためのデータ構造です。
