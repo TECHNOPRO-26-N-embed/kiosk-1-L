@@ -106,6 +106,10 @@ void purchase_flow(Product* products, int* count) {
             error_message("商品番号が不正です\n");
             continue; // 無効な商品番号の場合
         }
+        if (products[idx].price == 0) {
+            error_message("0円の商品は購入できません\n");
+            continue; // 0円商品は購入不可
+        }
         if (products[idx].stock - selected_qty[idx] == 0) {
             error_message("売切です\n");
             continue; // 在庫がない場合

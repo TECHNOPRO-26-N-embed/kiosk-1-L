@@ -142,7 +142,7 @@ void manage_stock(Product* products, int* count) {
             show_product_list(products, *count, 1); // 商品一覧を表示
 
             // 補充する商品番号を入力
-            int id = input_integer("補充する商品IDを入力", 1, 9999);
+            int id = input_integer("補充する商品IDを入力", 1, 50);
             int idx = find_product_index_by_id(products, *count, id);
 
             if (idx == -1) {
