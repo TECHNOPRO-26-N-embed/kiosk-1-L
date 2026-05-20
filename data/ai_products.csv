@@ -1,5 +1,5 @@
 product_id,product_name,temperature,price,stock
-1,コカ・コーラ,cool,160,45
+1,コカ・コーラ,cool,160,42
 2,アクエリアス,cool,150,50
 3,おーいお茶,cool,140,50
 4,ファンタ グレープ,cool,140,50
@@ -8,7 +8,7 @@ product_id,product_name,temperature,price,stock
 7,三ツ矢サイダー,cool,130,50
 8,CCレモン,cool,130,50
 9,なっちゃんオレンジ,cool,140,50
-10,ポカリスエット,cool,150,50
+10,ポカリスエット,cool,150,49
 11,カルピスウォーター,cool,140,50
 12,サントリー天然水,cool,120,50
 13,ボルヴィック,cool,120,50
