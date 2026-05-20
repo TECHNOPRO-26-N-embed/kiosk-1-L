@@ -6,8 +6,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "ai_product.h"
 #include "ai_util.h"
+
+// 商品IDから配列インデックスを検索
+static int find_product_index_by_id(Product* products, int count, int product_id) {
+    for (int i = 0; i < count; i++) {
+        if (products[i].product_id == product_id) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 // 商品CSV読込
 // 指定されたCSVファイルから商品情報を読み込み、構造体配列に格納します。
@@ -118,43 +129,123 @@ void show_product_list(Product* products, int count, int page) {
 // 在庫管理（補充）
 // 管理者が商品を選択し、補充数を入力して在庫を加算します。
 void manage_stock(Product* products, int* count) {
-    printf("\n--- 在庫管理 ---\n");
-    show_product_list(products, *count, 1); // 商品一覧を表示
+    while (1) {
+        printf("\n--- 在庫管理 ---\n");
+        printf("1: 在庫補充\n2: 商品入れ替え\n0: 戻る\n");
+        int menu = input_integer("操作を選択", 0, 2);
 
-    // 補充する商品番号を入力
-    int id = input_integer("補充する商品番号を入力", 1, *count);
-    int idx = -1; // 選択された商品のインデックス
+        if (menu == 0) {
+            return;
+        }
 
-    // 商品番号に該当する商品を検索
-    for (int i = 0; i < *count; i++) {
-        if (products[i].product_id == id) idx = i;
+        if (menu == 1) {
+            show_product_list(products, *count, 1); // 商品一覧を表示
+
+            // 補充する商品番号を入力
+            int id = input_integer("補充する商品IDを入力", 1, 9999);
+            int idx = find_product_index_by_id(products, *count, id);
+
+            if (idx == -1) {
+                error_message("商品IDが不正です。\n");
+                continue;
+            }
+
+            if (products[idx].stock >= 50) {
+                error_message("この商品はすでに在庫上限です。\n");
+                continue;
+            }
+
+            // 補充数を入力（在庫上限を超えない範囲）
+            int add = input_integer("補充数を入力(1-50)", 1, 50 - products[idx].stock);
+            products[idx].stock += add;
+            printf("%sの在庫を%d個補充しました。\n", products[idx].product_name, add);
+            continue;
+        }
+
+        // menu == 2
+        replace_products(products, count, REPLACE_CSV, REPLACE_LOG_CSV);
     }
-
-    if (idx == -1) {
-        error_message("商品番号が不正です。\n");
-        return;
-    }
-
-    // 補充数を入力（在庫上限を超えない範囲）
-    int add = input_integer("補充数を入力(1-50)", 1, 50-products[idx].stock);
-    if (products[idx].stock + add > 50) {
-        error_message("在庫上限を超えます。\n");
-        return;
-    }
-
-    // 在庫を加算
-    products[idx].stock += add;
-    printf("%sの在庫を%d個補充しました。\n", products[idx].product_name, add);
 }
 
-// 商品入れ替え（設計例のみ、詳細実装は省略）
+// 商品入れ替え
 // main_products: メイン商品配列, main_count: 商品数, replace_csv: 追加CSV, log_csv: ログファイル
 void replace_products(Product* main_products, int* main_count, const char* replace_csv, const char* log_csv) {
-    // ここに商品入れ替え処理を実装
-    // 設計書のアルゴリズムに従い、
-    // 1. 追加CSV読込
-    // 2. 入れ替え対象商品番号で内容を入れ替え
-    // 3. ログ記録
-    // 4. 上限超過チェック
-    // ...
+    Product replace_products_list[MAX_PRODUCTS];
+    int replace_count = 0;
+
+    if (load_products(replace_csv, replace_products_list, &replace_count) != LOAD_OK) {
+        error_message("入れ替え商品CSVの読み込みに失敗しました。\n");
+        return;
+    }
+    if (*main_count <= 0 || replace_count <= 0) {
+        error_message("商品データが不足しているため入れ替えできません。\n");
+        return;
+    }
+
+    printf("\n--- メイン商品一覧（1ページ目）---\n");
+    show_product_list(main_products, *main_count, 1);
+    printf("\n--- 入れ替え候補一覧（1ページ目）---\n");
+    show_product_list(replace_products_list, replace_count, 1);
+
+    int main_id = input_integer("入れ替え対象のメイン商品IDを入力", 1, 9999);
+    int replace_id = input_integer("入れ替え候補の商品IDを入力", 1, 9999);
+
+    int main_idx = find_product_index_by_id(main_products, *main_count, main_id);
+    int replace_idx = find_product_index_by_id(replace_products_list, replace_count, replace_id);
+
+    if (main_idx == -1 || replace_idx == -1) {
+        error_message("指定した商品IDが見つかりません。\n");
+        return;
+    }
+
+    Product old_main = main_products[main_idx];
+    Product old_replace = replace_products_list[replace_idx];
+
+    // 商品IDは各CSV側で維持し、商品内容のみ入れ替える
+    strncpy(main_products[main_idx].product_name, old_replace.product_name, sizeof(main_products[main_idx].product_name) - 1);
+    main_products[main_idx].product_name[sizeof(main_products[main_idx].product_name) - 1] = '\0';
+    strncpy(main_products[main_idx].temperature, old_replace.temperature, sizeof(main_products[main_idx].temperature) - 1);
+    main_products[main_idx].temperature[sizeof(main_products[main_idx].temperature) - 1] = '\0';
+    main_products[main_idx].price = old_replace.price;
+    main_products[main_idx].stock = old_replace.stock;
+
+    strncpy(replace_products_list[replace_idx].product_name, old_main.product_name, sizeof(replace_products_list[replace_idx].product_name) - 1);
+    replace_products_list[replace_idx].product_name[sizeof(replace_products_list[replace_idx].product_name) - 1] = '\0';
+    strncpy(replace_products_list[replace_idx].temperature, old_main.temperature, sizeof(replace_products_list[replace_idx].temperature) - 1);
+    replace_products_list[replace_idx].temperature[sizeof(replace_products_list[replace_idx].temperature) - 1] = '\0';
+    replace_products_list[replace_idx].price = old_main.price;
+    replace_products_list[replace_idx].stock = old_main.stock;
+
+    // 入れ替え候補CSVを保存（失敗時はメイン側を戻す）
+    if (!save_products(replace_csv, replace_products_list, replace_count)) {
+        main_products[main_idx] = old_main;
+        error_message("入れ替え商品CSVの保存に失敗しました。\n");
+        return;
+    }
+
+    // 入れ替えログを追記
+    FILE* log_fp = fopen(log_csv, "a");
+    if (log_fp) {
+        time_t now = time(NULL);
+        struct tm* t = localtime(&now);
+        char replaced_at[20];
+        snprintf(replaced_at, sizeof(replaced_at), "%04d-%02d-%02d %02d:%02d:%02d",
+                 t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
+
+        fprintf(log_fp, "%s,%d,%s,%s,%s,%d,%d\n",
+                replaced_at,
+                old_main.product_id,
+                old_main.product_name,
+                main_products[main_idx].product_name,
+                main_products[main_idx].temperature,
+                main_products[main_idx].price,
+                main_products[main_idx].stock);
+        fclose(log_fp);
+    } else {
+        error_message("入れ替えログファイルを開けませんでした。\n");
+    }
+
+    printf("商品を入れ替えました: %s -> %s\n",
+           old_main.product_name,
+           main_products[main_idx].product_name);
 }

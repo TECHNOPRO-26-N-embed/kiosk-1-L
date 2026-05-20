@@ -17,6 +17,9 @@
 // 商品入れ替えCSVファイル名
 #define REPLACE_CSV "data/ai_replace_products.csv"
 
+// 商品入れ替えログCSVファイル名
+#define REPLACE_LOG_CSV "data/ai_replace_log.csv"
+
 // 購入履歴CSVファイル名
 #define PURCHASE_HISTORY_CSV "data/ai_purchase_history.csv"
 
