@@ -66,7 +66,7 @@ void purchase_flow(Product* products, int* count) {
     // 商品選択ループ
     while (continue_buy) {
         show_product_list(products, *count, page); // 商品一覧を表示
-        printf("商品番号を入力 (n:次ページ p:前ページ q:戻る): ");
+        printf("商品番号を入力 : ");
         fgets(cmd, sizeof(cmd), stdin); // 商品番号を入力
         if (cmd[0] == 'q') {
             if (total == 0) {
